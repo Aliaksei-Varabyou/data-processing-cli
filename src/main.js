@@ -1,5 +1,6 @@
 import { createInterface } from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
+import { chdir, stdin as input, stdout as output } from "node:process";
+import { homedir } from "node:os";
 
 import {
   getPrompt,
@@ -7,23 +8,29 @@ import {
   writeByeMessage,
   writeGreeting,
 } from "./utils/messages.js";
+import { commandError, doCommand } from "./repl.js";
 
 writeGreeting();
+chdir(homedir());
 
 const rl = createInterface({ input, output, prompt: getPrompt() });
 rl.prompt();
 
 try {
   rl.on("line", (line) => {
-    const operation = line.trim();
-    if (operation === ".exit" || operation === "exit") {
+    const command = line.trim();
+    if (command === ".exit" || command === "exit") {
       rl.close();
     } else {
-      rl.prompt();
+      doCommand(command).then(() => {
+        // change prompt if working directory was changed
+        rl.setPrompt(getPrompt());
+        rl.prompt();
+      });
     }
   }).on("close", () => {
     writeByeMessage();
   });
 } catch {
-  logError(operationError());
+  logError(commandError());
 }
