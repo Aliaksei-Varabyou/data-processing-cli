@@ -34,5 +34,5 @@ export const logError = (error) => {
 };
 
 export const successOperation = () => {
-  logSuccess("Operation successfully done");
+  logSuccess("--- The operation was completed successfully ---");
 };
