@@ -1,3 +1,5 @@
+import { currentDir } from "../navigation.js";
+
 export const writeGreeting = () => {
   writeMessage("Welcome to Data Processing CLI!", "green");
 };
@@ -7,7 +9,7 @@ export const writeByeMessage = () => {
 };
 
 export const getPrompt = () => {
-  return `${setColor(`You are currently in <<${process.cwd()}>>`, 36)}\n${setColor("Enter command", 33)} > `;
+  return `${setColor(`You are currently in <<${currentDir}>>`, 36)}\n${setColor("Enter command", 33)} > `;
 };
 
 export const setColor = (text, code) => `\x1b[${code}m${text}\x1b[0m`;

@@ -1,9 +1,9 @@
 import { access } from "node:fs/promises";
-import { join } from "node:path";
-import { cwd } from "node:process";
+import { resolve } from "node:path";
 
 import { commandError } from "../repl.js";
 import { logError } from "./messages.js";
+import { currentDir } from "../navigation.js";
 
 const pathExists = async (path) => {
   try {
@@ -19,7 +19,7 @@ const pathExists = async (path) => {
 };
 
 export const fileExists = async (name) => {
-  const filePath = join(cwd(), name);
+  const filePath = resolve(currentDir, name);
   if (!(await pathExists(filePath))) {
     logError(`${name} don't exist`);
     commandError();

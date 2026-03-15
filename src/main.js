@@ -1,6 +1,5 @@
 import { createInterface } from "node:readline/promises";
-import { chdir, stdin as input, stdout as output } from "node:process";
-import { homedir } from "node:os";
+import { stdin as input, stdout as output } from "node:process";
 
 import {
   getPrompt,
@@ -11,8 +10,7 @@ import {
 import { commandError, doCommand } from "./repl.js";
 
 writeGreeting();
-console.log("Directory for test::", process.cwd());
-chdir(homedir());
+console.log("Directory for test:: cd ", process.cwd());
 
 const rl = createInterface({ input, output, prompt: getPrompt() });
 rl.prompt();

@@ -1,15 +1,21 @@
-import { chdir, cwd } from "node:process";
 import { resolve } from "node:path";
 import { promises } from "node:fs";
+import { homedir } from "node:os";
 
 import { inputError, commandError } from "./repl.js";
+
+export let currentDir = homedir();
+
+export const setCurrentDir = (dir) => {
+  currentDir = dir;
+};
 
 // Moves up one directory level from the current working directory
 // If already in the root directory, does nothing (no error)
 // After successful navigation, prints the new current working directory path
 const up = () => {
   try {
-    chdir(resolve(cwd(), ".."));
+    setCurrentDir(resolve(currentDir, ".."));
   } catch {
     inputError();
   }
@@ -21,7 +27,7 @@ const up = () => {
 // If successful, prints the new current working directory path
 const cd = (incomeParts) => {
   try {
-    chdir(incomeParts[0]);
+    setCurrentDir(resolve(currentDir, incomeParts[0]));
   } catch {
     inputError();
   }
@@ -32,7 +38,7 @@ const cd = (incomeParts) => {
 // Each entry shows the name (with extension for files) and type (file or folder)
 const ls = async () => {
   try {
-    const files = await promises.readdir(cwd(), { withFileTypes: true });
+    const files = await promises.readdir(currentDir, { withFileTypes: true });
 
     const fileInfo = await Promise.all(
       files.map((file) => {
