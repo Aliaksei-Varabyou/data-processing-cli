@@ -10,9 +10,6 @@ import {
 import { commandError, doCommand } from "./repl.js";
 
 writeGreeting();
-console.log("cd  /Users/owl/Projects/RS/Study/Node/");
-console.log("encrypt --input data.csv --output enc.data --password pass");
-console.log("decrypt --input enc.data --output data.txt --password pass");
 
 const rl = createInterface({ input, output, prompt: getPrompt() });
 rl.prompt();

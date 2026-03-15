@@ -9,6 +9,7 @@ import { hash } from "./commands/hash.js";
 import { hashCompare } from "./commands/hashCompare.js";
 import { encrypt } from "./commands/encrypt.js";
 import { decrypt } from "./commands/decrypt.js";
+import { logStats } from "./commands/logStats.js";
 
 const getCommandType = (command) => {
   if (NWD_COMMANDS.includes(command)) {
@@ -43,6 +44,9 @@ export const doCommand = async (income) => {
       break;
     case "decrypt":
       await decrypt(incomeParts);
+      break;
+    case "log-stats":
+      await logStats(incomeParts);
       break;
     default:
       commandError();
