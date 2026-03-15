@@ -5,6 +5,7 @@ import { parseArgs } from "./utils/argParser.js";
 import { csvToJson } from "./commands/csvToJson.js";
 import { jsonToCsv } from "./commands/jsonToCsv.js";
 import { countFile } from "./commands/count.js";
+import { hash } from "./commands/hash.js";
 
 const getCommandType = (command) => {
   if (NWD_COMMANDS.includes(command)) {
@@ -27,6 +28,9 @@ export const doCommand = async (income) => {
       break;
     case "count":
       await countFile(incomeParts);
+      break;
+    case "hash":
+      await hash(incomeParts);
       break;
     default:
       commandError();
