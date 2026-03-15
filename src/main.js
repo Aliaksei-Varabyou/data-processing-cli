@@ -11,6 +11,7 @@ import { commandError, doCommand } from "./repl.js";
 
 writeGreeting();
 console.log("Directory for test:: cd ", process.cwd());
+console.log("hash-compare --input data.csv --hash data.csv.sha256");
 
 const rl = createInterface({ input, output, prompt: getPrompt() });
 rl.prompt();
