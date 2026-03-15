@@ -1,0 +1,63 @@
+import { logError } from "./utils/messages.js";
+import { INVALID_INPUT, NWD_COMMANDS, OPERATION_FAILED } from "./constants.js";
+import { nwdCommand } from "./navigation.js";
+import { parseArgs } from "./utils/argParser.js";
+import { csvToJson } from "./commands/csvToJson.js";
+import { jsonToCsv } from "./commands/jsonToCsv.js";
+import { countFile } from "./commands/count.js";
+import { hash } from "./commands/hash.js";
+import { hashCompare } from "./commands/hashCompare.js";
+import { encrypt } from "./commands/encrypt.js";
+import { decrypt } from "./commands/decrypt.js";
+import { logStats } from "./commands/logStats.js";
+
+const getCommandType = (command) => {
+  if (NWD_COMMANDS.includes(command)) {
+    return "NWD";
+  }
+  return command;
+};
+
+export const doCommand = async (income) => {
+  const { incomeParts, command } = parseArgs(income);
+  switch (getCommandType(command)) {
+    case "NWD":
+      await nwdCommand(command, incomeParts);
+      break;
+    case "csv-to-json":
+      await csvToJson(incomeParts);
+      break;
+    case "json-to-csv":
+      await jsonToCsv(incomeParts);
+      break;
+    case "count":
+      await countFile(incomeParts);
+      break;
+    case "hash":
+      await hash(incomeParts);
+      break;
+    case "hash-compare":
+      await hashCompare(incomeParts);
+      break;
+    case "encrypt":
+      await encrypt(incomeParts);
+      break;
+    case "decrypt":
+      await decrypt(incomeParts);
+      break;
+    case "log-stats":
+      await logStats(incomeParts);
+      break;
+    default:
+      commandError();
+      break;
+  }
+};
+
+export const commandError = () => {
+  logError(OPERATION_FAILED);
+};
+
+export const inputError = () => {
+  logError(INVALID_INPUT);
+};
