@@ -7,6 +7,8 @@ import { jsonToCsv } from "./commands/jsonToCsv.js";
 import { countFile } from "./commands/count.js";
 import { hash } from "./commands/hash.js";
 import { hashCompare } from "./commands/hashCompare.js";
+import { encrypt } from "./commands/encrypt.js";
+import { decrypt } from "./commands/decrypt.js";
 
 const getCommandType = (command) => {
   if (NWD_COMMANDS.includes(command)) {
@@ -35,6 +37,12 @@ export const doCommand = async (income) => {
       break;
     case "hash-compare":
       await hashCompare(incomeParts);
+      break;
+    case "encrypt":
+      await encrypt(incomeParts);
+      break;
+    case "decrypt":
+      await decrypt(incomeParts);
       break;
     default:
       commandError();
