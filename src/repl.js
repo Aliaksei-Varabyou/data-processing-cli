@@ -1,20 +1,24 @@
 import { logError } from "./utils/messages.js";
-import { NWD_COMMANDS } from "./constants.js";
+import { INVALID_INPUT, NWD_COMMANDS, OPERATION_FAILED } from "./constants.js";
 import { nwdCommand } from "./navigation.js";
+import { parseArgs } from "./utils/argParser.js";
+import { csvToJson } from "./commands/csvToJson.js";
 
 const getCommandType = (command) => {
   if (NWD_COMMANDS.includes(command)) {
     return "NWD";
   }
-  return null;
+  return command;
 };
 
 export const doCommand = async (income) => {
-  const incomeParts = income.split(" ").filter((item) => item !== "");
-  const command = incomeParts.shift();
+  const { incomeParts, command } = parseArgs(income);
   switch (getCommandType(command)) {
     case "NWD":
       await nwdCommand(command, incomeParts);
+      break;
+    case "csv-to-json":
+      await csvToJson(incomeParts);
       break;
     default:
       commandError();
@@ -23,7 +27,7 @@ export const doCommand = async (income) => {
 };
 
 export const commandError = () => {
-  logError(COMMAND_FAILED);
+  logError(OPERATION_FAILED);
 };
 
 export const inputError = () => {

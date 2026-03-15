@@ -32,3 +32,7 @@ export const logSuccess = (message) => {
 export const logError = (error) => {
   console.log(setColor(`\n${error}\n`, 31));
 };
+
+export const successOperation = () => {
+  logSuccess("Operation successfully done");
+};

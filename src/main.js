@@ -11,6 +11,7 @@ import {
 import { commandError, doCommand } from "./repl.js";
 
 writeGreeting();
+console.log("Directory for test::", process.cwd());
 chdir(homedir());
 
 const rl = createInterface({ input, output, prompt: getPrompt() });
